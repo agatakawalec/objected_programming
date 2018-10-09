@@ -24,4 +24,5 @@ public class LiczbyPierwsze {
         System.out.print(list);
         return list;
     }
+
 }

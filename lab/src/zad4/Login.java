@@ -1,3 +1,11 @@
+/**
+ *
+ * @author Agata
+ * @version 1.0
+ * @param _login login jaki dana instancja klasy będiz eprzechowywać
+ * @param _password hasło jakie dana instancja klasy będiz eprzechowywać
+ */
+
 package zad4;
 public class Login {
     private String login;
