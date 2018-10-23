@@ -12,7 +12,7 @@ public class EmailMessage {
     private LinkedList<String> cc; //optional
     private LinkedList<String> bcc; // optional
 
-    protected EmailMessage( Builder builder){
+    private EmailMessage( Builder builder){
         from=builder.from;
         to=builder.to;
         subject=builder.subject;
