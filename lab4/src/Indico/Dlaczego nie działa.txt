@@ -1,0 +1,1 @@
+Dokumentacja API z oficjalnej strony nie jest aktualna. Funkcja, której powinno siê u¿yæ przy wykonywaniu æwiczenia zosta³a usuniêta, co pokazujê w za³¹czonym zdjêciu.
