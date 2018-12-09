@@ -6,6 +6,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -54,7 +56,33 @@ public class Main extends Application {
         series3.getData().add(new XYChart.Data(italy, 17557.31));
         series3.getData().add(new XYChart.Data(usa, 92633.68));
 
-        Scene scene = new Scene(bc, 800, 600);
+        // changes
+        Label label1 = new Label("Type: \"year country new_value\" to change values on the plot");
+        TextField textField = new TextField();
+        Button changeButton = new Button("OK");
+
+        changeButton.setOnMouseClicked((event) -> {
+            String[] splitText = textField.getText().split(" ");
+            String year = splitText[0];
+            String country = splitText[1];
+            Double value = new Double(splitText[2]);
+
+            switch (year) {
+                case "2005":
+                    series3.getData().add(new XYChart.Data(country, value));
+                    break;
+                case "2004":
+                    series2.getData().add(new XYChart.Data(country, value));
+                    break;
+                case "2003":
+                    series1.getData().add(new XYChart.Data(country, value));
+                    break;
+            }
+        });
+        VBox layout1 = new VBox(10);
+        layout1.getChildren().addAll(label1, textField, changeButton, bc);
+
+        Scene scene = new Scene(layout1, 800, 600);
         bc.getData().addAll(series1, series2, series3);
         stage.setScene(scene);
         stage.show();
