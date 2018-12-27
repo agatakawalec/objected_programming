@@ -1,0 +1,79 @@
+body{background-color: #ffefe5;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    font-size: 13pt;}
+
+h1{color:#be9383;
+    letter-spacing: 2px;
+    text-align: center;}
+h4{text-align: center;}
+
+h2{color: #9b7a73;}
+p{color: #826d6a;
+    text-indent: 1.5em;}
+
+table{background-color: #f1cfaa;
+    border-collapse: collapse;
+    border-color:  #826d6a;
+    margin: auto;}
+td:first-child{
+    background-color: white;}
+thead th, thead td{
+    letter-spacing: 1px;
+    text-decoration: underline;
+    text-transform: uppercase;}
+
+ol{list-style-type: upper-roman;}
+ol ol{list-style-type: lower-roman;}
+ol ol ol{list-style-type: lower-greek;}
+
+
+.img{float: left;
+    margin-left: 15px;}
+.img1{float: right;
+    margin-right: 15px;}
+
+#main{background-color: #f6d7c2;
+    max-width: 960px;
+    margin-left:100px;
+    position: relative;
+    margin-bottom: auto;}
+
+#title{width: 100%;
+    text-align: center;}
+
+#spis{position: fixed;
+    top: 100px;
+    right:0;
+    margin-right:50px;
+    height:auto;
+    width: 250px;
+    background-color: #ffbe9e;
+    text-align: center;
+    }
+
+#spis li{width: 150px;
+    text-align: center;
+    right: 25%;
+    padding: 6px;
+    margin:5px;
+    display: inline-block;
+    border:solid 1px #B27563;
+    background: #f6d7c2;
+    font-size: 10pt;
+    cursor:default;
+    font-weight:bold; }
+
+#spis li:hover{background-color:#ffefe5;
+    cursor:default;
+    color:#825142;}
+
+p::first-letter{
+    font-size:20px;
+    font-style: italic;
+    color:#825142;}
+
+#html{bottom:0;}
+
+@media(max-width:800px){#spis  { display: none;}
+    #spis_alt { display: block;}}
+
