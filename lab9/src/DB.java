@@ -1,89 +1,131 @@
 
 import java.sql.*;
 
-public class DB{
+public class DB {
     private Connection conn = null;
     private Statement stmt = null;
-    private PreparedStatement pstmt=null;
     private ResultSet rs = null;
-    private int iterator=0;
-    String wynik="";
+
+    public void finalFunc(){
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException sqlEx) { }
+            rs = null;
+        }
+
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException sqlEx) { }
+            stmt = null;
+        }
+    }
     public void connect(){
         try {
-            iterator+=1;
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn =
-                    DriverManager.getConnection("\"jdbc:mysql://mysql.agh.edu.pl/agkawale\", \"agkawale\", \"atDC5JzSgY2m1zkZ\"");
-
-
+            conn = DriverManager.getConnection("jdbc:mysql://mysql.agh.edu.pl/agkawale", "agkawale", "fbkypLh1M41vQtJS");
+            /*try(ResultSet rs = stmt.executeQuery("SELECT title FROM books")) {
+                //przeglądnięcie obiektu typu ResultSet element po elemencie
+                while( rs.next() ) {
+                    //Wybranie pierwszej kolumny w postaci Stringa
+                    System.out.println(rs.getString(1));
+                }
+            }*/
         } catch (SQLException ex) {
-            // handle any errors
-            if(conn==null && iterator<=3){
-                System.out.println("Łączenie"+iterator);
-                connect();
-                iterator=0;}
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
-        }catch(Exception e){e.printStackTrace();}
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
-
-    public void search(String aut) {
+    public void listNames(){
         try {
             connect();
-            String sql="SELECT * FROM books WHERE author LIKE ? OR isbn=?";
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setString(1, "%"+aut+"%");
-            pstmt.setString(2, aut);
-            rs = pstmt.executeQuery();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM books");
+
             ResultSetMetaData rsmd = rs.getMetaData();
+
             int columnsNumber = rsmd.getColumnCount();
+            System.out.println(columnsNumber);
             while (rs.next()) {
-                for(int i=1; i<=columnsNumber; i++){
-                    wynik+=rs.getString(i)+" ";
+
+                for (int i = 1; i <= columnsNumber; i++) {
+                    System.out.print(rs.getString(i) + " ");
                 }
-                wynik+='\n';
+                System.out.println();
+
+            /*while(rs.next()){
+                String name = rs.getString(1);
+                System.out.println("Tytuł: "+name);
+            }*/
             }
 
+        }catch (SQLException ex){
+            // handle any errors
 
-        } catch (SQLException ex) {
-
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-                rs = null;
-            }
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-
-                stmt = null;
-            }
+        }finally {
+            finalFunc();
         }
-
     }
 
-    public void add(String isbn, String title, String author, String year) {
+    public void searchAuthor(String surname){
         try {
+            connect();
             stmt = conn.createStatement();
-            String sql="INSERT INTO books (isbn,title,author,`year`)"
-                    + "values (?,?,?,?)";
-            pstmt=conn.prepareStatement(sql);
-            pstmt.setString(1, isbn);
-            pstmt.setString(2, title);
-            pstmt.setString(3, author);
-            pstmt.setString(4, year);
-            pstmt.executeUpdate();
+            rs = stmt.executeQuery("SELECT title FROM books WHERE author LIKE '% \"+surname+\"'");
+            if (!rs.next()) {
+                System.out.println("No records found");
+
+            }
+            else {
+                do {
+                    String name = rs.getString(1);
+                    System.out.println("Tytuł: "+name);
+                } while (rs.next());
+            }
         }catch (SQLException ex){
 
+        }finally {
+            finalFunc();
         }
     }
-}
 
+    public void searchIsbn(String number){
+        try {
+            connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT title FROM books WHERE isbn LIKE number");
+            if (!rs.next()) {
+                System.out.println("No records found");
+
+            }
+            else {
+                do {
+                    String name = rs.getString(1);
+                    System.out.println("Tytuł: "+name);
+                } while (rs.next());
+            }
+        }catch (SQLException ex){
+
+        }finally {
+            finalFunc();
+        }
+    }
+
+    public void addBook(String isbn, String title, String author, String year){
+        try {
+            connect();
+            stmt = conn.createStatement();
+            stmt.executeUpdate("INSERT INTO books(isbn,title,author,year) VALUES ('"+isbn+"','" +title
+                    +"','" +author+"','"+year+"');");
+        }catch (SQLException ex){
+
+        }finally {
+            finalFunc();
+        }
+    }
+
+}
