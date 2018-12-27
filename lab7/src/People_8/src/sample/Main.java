@@ -161,6 +161,8 @@ public class Main extends Application {
         });
 
         Button add=new Button("Add new Person");
+        add.setLayoutX(100);
+        add.setLayoutY(250);
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
